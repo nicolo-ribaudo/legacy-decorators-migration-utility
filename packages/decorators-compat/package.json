@@ -1,0 +1,13 @@
+{
+  "name": "decorators-compat",
+  "version": "1.0.0",
+  "description": "Wrapper to make legacy decorators compatible with the new proposal.",
+  "main": "index.cjs.js",
+  "module": "index.esm.js",
+  "author": {
+    "name": "Nicolò Ribaudo",
+    "email": "nicolo.ribaudo@gmail.com",
+    "url": "https://github.com/nicolo-ribaudo"
+  },
+  "license": "MIT"
+}

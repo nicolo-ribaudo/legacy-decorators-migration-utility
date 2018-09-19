@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cli works 1`] = `
+"import _ from \\"decorators-compat\\";
+@_([console
+  .log
+  .bind(console)])
+export default class Foo {
+  @_([function(desc){desc.initializer=()=>3}])
+
+  baz = 2;
+
+  @_([enumerable])
+  method(
+
+  ) {
+      return  \\"strange\\" +
+                \\"indentation\\";
+  }
+}
+"
+`;

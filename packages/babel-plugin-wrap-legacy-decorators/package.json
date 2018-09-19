@@ -1,0 +1,19 @@
+{
+  "name": "babel-plugin-wrap-legacy-decorators",
+  "version": "1.0.0",
+  "description": "Wraps legacy decorators to be compatible with the new semantics.",
+  "main": "src/index.js",
+  "author": {
+    "name": "Nicolò Ribaudo",
+    "email": "nicolo.ribaudo@gmail.com",
+    "url": "https://github.com/nicolo-ribaudo"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@babel/core": "^7.1.0"
+  },
+  "dependencies": {
+    "@babel/helper-module-imports": "^7.0.0",
+    "@babel/helper-plugin-utils": "^7.0.0"
+  }
+}
