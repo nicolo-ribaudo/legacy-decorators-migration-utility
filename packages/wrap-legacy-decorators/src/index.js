@@ -59,7 +59,7 @@ async function run(filename) {
 
   const output = await babelRecast(
     code,
-    { filename },
+    { filename, parserOpts: { plugins: ["decorators-legacy"] } },
     {
       configFile: false,
       plugins: [
@@ -74,7 +74,7 @@ async function run(filename) {
   if (program.write) {
     await writeFile(filename, output);
   } else {
-    process.stdout.write(output);
+    console.log(output);
   }
 }
 
