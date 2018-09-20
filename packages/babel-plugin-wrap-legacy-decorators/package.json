@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-wrap-legacy-decorators",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Wraps legacy decorators to be compatible with the new semantics.",
   "main": "src/index.js",
   "author": {
