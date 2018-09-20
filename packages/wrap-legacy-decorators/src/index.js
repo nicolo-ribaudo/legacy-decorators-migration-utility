@@ -72,7 +72,7 @@ async function run(filename) {
   if (program.write) {
     await writeFile(filename, output);
   } else {
-    console.log(output);
+    process.stdout.write(output);
   }
 }
 

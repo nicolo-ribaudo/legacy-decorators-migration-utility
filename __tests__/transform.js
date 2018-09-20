@@ -3,10 +3,11 @@ const wrapLegacyDecorators = require("./helpers/wrap-legacy-decorators");
 function snapshot(
   name,
   code,
-  options = { decoratorsBeforeExport: true, externalHelpers: true }
+  options = { decoratorsBeforeExport: true, externalHelpers: true },
+  babelOptions
 ) {
   it(name, () => {
-    expect(wrapLegacyDecorators(code, options)).toMatchSnapshot();
+    expect(wrapLegacyDecorators(code, options, babelOptions)).toMatchSnapshot();
   });
 }
 
@@ -24,6 +25,37 @@ describe("babel-plugin-wrap-legacy-decorators", () => {
       class Foo {}
     `
   );
+
+  describe("helper", () => {
+    snapshot(
+      "inline",
+      `
+         @dec
+         class Foo {}
+      `,
+      { externalHelpers: false, decoratorsBeforeExport: true }
+    );
+
+    snapshot(
+      "esm",
+      `
+         @dec
+         class Foo {}
+      `,
+      undefined,
+      { sourceType: "module" }
+    );
+
+    snapshot(
+      "cjs",
+      `
+         @dec
+         class Foo {}
+      `,
+      undefined,
+      { sourceType: "script" }
+    );
+  })
 
   describe("wrap decorators", () => {
     snapshot(
@@ -69,15 +101,6 @@ describe("babel-plugin-wrap-legacy-decorators", () => {
       decoratorsBeforeExport: false
     });
   });
-
-  snapshot(
-    "inline helper",
-    `
-       @dec
-       class Foo {}
-    `,
-    { externalHelpers: false, decoratorsBeforeExport: true }
-  );
 
   describe("object decorators throw", () => {
     it("property", () => {
