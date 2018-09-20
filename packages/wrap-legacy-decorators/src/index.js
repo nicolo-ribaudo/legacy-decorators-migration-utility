@@ -11,8 +11,10 @@ const babel = require("@babel/core");
 const recast = require("recast");
 const babelPluginWrapLegacyDecorators = require("babel-plugin-wrap-legacy-decorators");
 
+const pkg = require("../package.json");
+
 program
-  .version("1.0.0", "-v, --version")
+  .version(pkg.version, "-v, --version")
   .arguments("<file>")
   .option("--write", "Overwrite the input file")
   .option(

@@ -1,6 +1,6 @@
 {
   "name": "decorators-compat",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Wrapper to make legacy decorators compatible with the new proposal.",
   "main": "index.cjs.js",
   "module": "index.esm.js",
