@@ -5,6 +5,7 @@
 const util = require("util");
 const readFile = util.promisify(require("fs").readFile);
 const writeFile = util.promisify(require("fs").writeFile);
+const glob = util.promisify(require("glob"));
 const path = require("path");
 const program = require("commander");
 const babel = require("@babel/core");
@@ -15,7 +16,7 @@ const pkg = require("../package.json");
 
 program
   .version(pkg.version, "-v, --version")
-  .arguments("<file>")
+  .arguments("<files...>")
   .option("--write", "Overwrite the input file")
   .option(
     "--external-helpers",
@@ -29,7 +30,11 @@ program
   .action(run)
   .parse(process.argv);
 
-async function run(filename) {
+async function forEach(arr, cb) {
+  return Promise.all(arr.map(cb));
+}
+
+async function run(files) {
   const externalHelpers = program.externalHelpers || false;
 
   let decoratorsBeforeExport;
@@ -53,29 +58,48 @@ async function run(filename) {
     }
   }
 
-  filename = path.resolve(filename);
+  const opts = { decoratorsBeforeExport, externalHelpers };
 
-  const code = await readFile(filename, "utf-8");
+  let filenames = new Set();
+  const addFilename = filenames.add.bind(filenames);
 
-  const output = await babelRecast(
+  // Some systems already expand glob patterns; some don't.
+  await forEach(files, async file => {
+    (await glob(file)).forEach(addFilename);
+  });
+
+  if (filenames.size > 1 && !program.write) {
+    throw new Error(
+      "Multiple input files detected: writing the output to the stdout is not supported. " +
+        "You must pass the '--write' flag."
+    );
+  }
+
+  await forEach(Array.from(filenames), async filename => {
+    filename = path.resolve(filename);
+
+    const code = await readFile(filename, "utf-8");
+    const output = await transformDecorators(code, filename, opts);
+
+    if (program.write) {
+      await writeFile(filename, output);
+    } else {
+      console.log(output);
+    }
+  });
+}
+
+async function transformDecorators(code, filename, opts) {
+  if (!code.includes("@")) return code;
+
+  return babelRecast(
     code,
     { filename, parserOpts: { plugins: ["decorators-legacy"] } },
     {
       configFile: false,
-      plugins: [
-        [
-          babelPluginWrapLegacyDecorators,
-          { decoratorsBeforeExport, externalHelpers }
-        ]
-      ]
+      plugins: [[babelPluginWrapLegacyDecorators, opts]]
     }
   );
-
-  if (program.write) {
-    await writeFile(filename, output);
-  } else {
-    console.log(output);
-  }
 }
 
 async function babelRecast(code, parserOpts, transformerOpts) {

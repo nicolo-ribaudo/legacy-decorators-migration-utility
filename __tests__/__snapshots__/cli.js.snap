@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`cli requires --write for multiple files 1`] = `
+" UnhandledPromiseRejectionWarning: Error: Multiple input files detected: writing the output to the stdout is not supported. You must pass the '--write' flag.
+    at Command.run ([ROOT]/packages/wrap-legacy-decorators/src/index.js:72:11)
+ UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+ [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+"
+`;
+
 exports[`cli works 1`] = `
 "import _ from \\"decorators-compat\\";
 @_([console
@@ -17,5 +25,6 @@ export default class Foo {
       return  \\"strange\\" +
                 \\"indentation\\";
   }
-}"
+}
+"
 `;
