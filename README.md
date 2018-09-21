@@ -36,6 +36,16 @@ $ yarn global add wrap-legacy-decorators
 $ wrap-legacy-decorators file.js
 ```
 
+It also works with multiple files:
+
+```
+$ npx wrap-legacy-decorators foo.js bar.js
+
+OR:
+
+$ npx wrap-legacy-decorators src/**/*.js
+```
+
 #### Options
 
 | **Option**           | **Description**           |
