@@ -1,6 +1,6 @@
 {
   "name": "wrap-legacy-decorators",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Wraps legacy decorators to be compatible with the new semantics.",
   "bin": "src/index.js",
   "author": {
